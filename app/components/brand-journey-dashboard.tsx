@@ -116,6 +116,7 @@ export default function BrandJourneyDashboard() {
       console.error("Error saving data:", error);
       alert("오류가 발생했습니다.");
     }
+    
   };
   
   const isSummaryPage = currentStep >= brandSteps.length;
