@@ -83,10 +83,8 @@ export default function BrandJourneyDashboard() {
   };
 
   const handleNextStep = () => {
-    if (currentStep < brandSteps.length - 1) { // 마지막 단계에서 다음 버튼을 누르면 요약 페이지로 이동
+    if (currentStep < brandSteps.length) {
       setCurrentStep(currentStep + 1);
-    } else {
-      setCurrentStep(currentStep + 1); // 요약 페이지로 이동
     }
   };
 
@@ -132,83 +130,22 @@ export default function BrandJourneyDashboard() {
         />
       );
     }
+
+    const CurrentForm = brandSteps[currentStep].component;
     const stepNumber = brandSteps[currentStep].id + 1;
     const stepKey = `step${stepNumber}` as keyof BrandDataState;
     
     // 컴포넌트와 데이터의 타입을 명시적으로 연결하여 오류 해결
-    switch (stepKey) {
-      case 'step1':
-        return (
-          <BrandEssenceForm
-            onNext={handleNextStep}
-            onSaveAndExit={handleSaveAndExit}
-            brandData={brandData[stepKey]}
-            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
-          />
-        );
-      case 'step2':
-        return (
-          <BrandPersonaForm
-            onPrevious={handlePrevStep}
-            onNext={handleNextStep}
-            onSaveAndExit={handleSaveAndExit}
-            brandData={brandData[stepKey]}
-            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
-          />
-        );
-      case 'step3':
-        return (
-          <BrandStyleForm
-            onPrevious={handlePrevStep}
-            onNext={handleNextStep}
-            onSaveAndExit={handleSaveAndExit}
-            brandData={brandData[stepKey]}
-            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
-          />
-        );
-      case 'step4':
-        return (
-          <BrandMessageForm
-            onPrevious={handlePrevStep}
-            onNext={handleNextStep}
-            onSaveAndExit={handleSaveAndExit}
-            brandData={brandData[stepKey]}
-            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
-          />
-        );
-      case 'step5':
-        return (
-          <BrandPositioningForm
-            onPrevious={handlePrevStep}
-            onNext={handleNextStep}
-            onSaveAndExit={handleSaveAndExit}
-            brandData={brandData[stepKey]}
-            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
-          />
-        );
-      case 'step6':
-        return (
-          <BrandValidationForm
-            onPrevious={handlePrevStep}
-            onNext={handleNextStep}
-            onSaveAndExit={handleSaveAndExit}
-            brandData={brandData[stepKey]}
-            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
-          />
-        );
-      case 'step7':
-        return (
-          <BrandRoadmapForm
-            onPrevious={handlePrevStep}
-            onNext={handleNextStep}
-            onSaveAndExit={handleSaveAndExit}
-            brandData={brandData[stepKey]}
-            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
-          />
-        );
-      default:
-        return <div>Form not found for this step.</div>;
-    }
+    // 불완전한 switch 문을 제거하고, 범용적인 props 전달 방식으로 변경
+    return (
+      <CurrentForm
+        onPrevious={handlePrevStep}
+        onNext={handleNextStep}
+        onSaveAndExit={handleSaveAndExit}
+        brandData={brandData[stepKey]}
+        onInputChange={handleInputChange}
+      />
+    );
   };
 
   return (
