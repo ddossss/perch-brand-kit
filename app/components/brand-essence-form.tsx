@@ -7,7 +7,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 
-export default function BrandEssenceForm({ onNext, onSaveAndExit, brandData, onInputChange }) {
+// BrandData 인터페이스는 프로젝트의 실제 데이터 구조에 맞게 정의해야 합니다.
+// 현재 코드에 기반하여 필드를 추론했습니다.
+interface BrandData {
+  brandReason: string;
+  problemSolving: string;
+  coreValues: string;
+  customerFeeling: string;
+}
+
+interface BrandEssenceFormProps {
+  onNext: () => void;
+  onSaveAndExit: () => void;
+  brandData: BrandData;
+  onInputChange: (step: number, name: string, value: string) => void;
+}
+
+export default function BrandEssenceForm({ onNext, onSaveAndExit, brandData, onInputChange }: BrandEssenceFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (onNext) {
@@ -44,8 +60,8 @@ export default function BrandEssenceForm({ onNext, onSaveAndExit, brandData, onI
                 placeholder="Enter your reasons here."
                 className="min-h-[120px] resize-none"
                 required
-                value={brandData.brandReason} // 상태에서 값을 가져와 표시
-                onChange={handleTextAreaChange} // 변경될 때마다 부모 상태 업데이트
+                value={brandData.brandReason}
+                onChange={handleTextAreaChange}
               />
             </div>
             {/* Question 2 */}
