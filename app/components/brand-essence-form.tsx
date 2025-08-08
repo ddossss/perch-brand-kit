@@ -7,23 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 
-// BrandData 인터페이스는 프로젝트의 실제 데이터 구조에 맞게 정의해야 합니다.
-// 현재 코드에 기반하여 필드를 추론했습니다.
-interface BrandData {
-  brandReason: string;
-  problemSolving: string;
-  coreValues: string;
-  customerFeeling: string;
-}
-
-interface BrandEssenceFormProps {
-  onNext: () => void;
-  onSaveAndExit: () => void;
-  brandData: BrandData;
-  onInputChange: (step: number, name: string, value: string) => void;
-}
-
-export default function BrandEssenceForm({ onNext, onSaveAndExit, brandData, onInputChange }: BrandEssenceFormProps) {
+export default function BrandEssenceForm({ onNext, onSaveAndExit, brandData, onInputChange }) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (onNext) {
@@ -34,8 +18,8 @@ export default function BrandEssenceForm({ onNext, onSaveAndExit, brandData, onI
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     // 부모 컴포넌트의 상태를 업데이트하는 함수를 호출
-    // 첫 번째 인자(1)는 현재 단계 번호
-    onInputChange(1, name, value);
+    // 부모 컴포넌트에서 stepNumber를 관리하므로 여기서는 name과 value만 전달
+    onInputChange(name, value);
   };
 
   return (
@@ -60,8 +44,8 @@ export default function BrandEssenceForm({ onNext, onSaveAndExit, brandData, onI
                 placeholder="Enter your reasons here."
                 className="min-h-[120px] resize-none"
                 required
-                value={brandData.brandReason}
-                onChange={handleTextAreaChange}
+                value={brandData.brandReason} // 상태에서 값을 가져와 표시
+                onChange={handleTextAreaChange} // 변경될 때마다 부모 상태 업데이트
               />
             </div>
             {/* Question 2 */}
