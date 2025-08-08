@@ -131,19 +131,43 @@ export default function BrandJourneyDashboard() {
       );
     }
 
-    const CurrentForm = brandSteps[currentStep].component;
-    const stepNumber = brandSteps[currentStep].id + 1;
-    const stepKey = `step${stepNumber}` as keyof BrandDataState;
+    const stepNumber = currentStep + 1;
     
-    return (
-      <CurrentForm
-        onPrevious={handlePrevStep}
-        onNext={handleNextStep}
-        onSaveAndExit={handleSaveAndExit}
-        brandData={brandData[stepKey]}
-        onInputChange={(field, value) => handleInputChange(stepNumber, field, value)}
-      />
-    );
+    switch (currentStep) {
+      case 0:
+        return (
+          <BrandEssenceForm
+            onPrevious={handlePrevStep}
+            onNext={handleNextStep}
+            onSaveAndExit={handleSaveAndExit}
+            brandData={brandData.step1}
+            onInputChange={(field, value) => handleInputChange(stepNumber, field, value)}
+          />
+        );
+      case 1:
+        return (
+          <BrandPersonaForm
+            onPrevious={handlePrevStep}
+            onNext={handleNextStep}
+            onSaveAndExit={handleSaveAndExit}
+            brandData={brandData.step2}
+            onInputChange={(field, value) => handleInputChange(stepNumber, field, value)}
+          />
+        );
+      // 나머지 단계도 같은 방식으로 추가해야 합니다.
+      // 현재는 2단계까지만 작성했습니다.
+      default:
+        const CurrentForm = brandSteps[currentStep].component;
+        return (
+          <CurrentForm
+            onPrevious={handlePrevStep}
+            onNext={handleNextStep}
+            onSaveAndExit={handleSaveAndExit}
+            brandData={brandData[`step${stepNumber}` as keyof BrandDataState]}
+            onInputChange={(field, value) => handleInputChange(stepNumber, field, value)}
+          />
+        );
+    }
   };
 
   return (
