@@ -81,26 +81,38 @@ app.post('/api/save-brand-data', async (req, res) => {
   }
 });
 
+
 // 이메일 전송 라우트 (프런트엔드에서 호출하는 '/api/send-email' 엔드포인트)
+const nodemailer = require('nodemailer'); // 상단에 추가
+
 app.post('/api/send-email', async (req, res) => {
   const { to, subject, html } = req.body;
   
   // 실제 이메일 전송 로직이 여기에 들어갑니다.
-  // 여기서는 예시로 성공/실패만 반환합니다.
-  console.log(`Sending email to: ${to} with subject: ${subject}`);
-  // Nodemailer 등의 라이브러리를 사용하여 실제 이메일을 보낼 수 있습니다.
-  // 예:
-  // try {
-  //   const transporter = nodemailer.createTransport({ ... });
-  //   await transporter.sendMail({ from: 'your-email@example.com', to, subject, html });
-  //   res.json({ success: true, message: 'Email sent successfully!' });
-  // } catch (error) {
-  //   console.error('Email sending failed:', error);
-  //   res.status(500).json({ success: false, message: 'Failed to send email' });
-  // }
-  
-  // 지금은 단순히 성공 메시지를 보냅니다.
-  res.json({ success: true, message: 'Email sending simulated successfully!' });
+  try {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail', // 예: 'gmail'
+      auth: {
+        user: process.env.EMAIL_USER, // Railway 환경 변수에 설정할 이메일 주소
+        pass: process.env.EMAIL_PASS, // Railway 환경 변수에 설정할 비밀번호
+      }
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: to,
+      subject: subject,
+      html: html
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log(`Email sent to: ${to}`);
+    res.json({ success: true, message: 'Email sent successfully!' });
+
+  } catch (error) {
+    console.error('Email sending failed:', error);
+    res.status(500).json({ success: false, message: 'Failed to send email' });
+  }
 });
 
 
