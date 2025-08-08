@@ -125,7 +125,6 @@ export default function BrandJourneyDashboard() {
       return (
         <BrandSummaryPage 
           onPrevious={handlePrevStep}
-          onNext={() => {}} // 요약 페이지에서 '다음' 버튼이 없으므로 빈 함수
           onSaveAndExit={handleSaveAndExit}
           brandData={brandData}
         />
