@@ -114,3 +114,71 @@ export default function BrandJourneyDashboard() {
       }
     } catch (error) {
       console.error("Error saving data:", error);
+      alert("오류가 발생했습니다.");
+    }
+  };
+  
+  const isSummaryPage = currentStep >= brandSteps.length;
+
+  const renderCurrentForm = () => {
+    if (isSummaryPage) {
+      return (
+        <BrandSummaryPage 
+          onPrevious={handlePrevStep}
+          onSaveAndExit={handleSaveAndExit}
+          brandData={brandData}
+        />
+      );
+    }
+    const stepNumber = brandSteps[currentStep].id + 1;
+    const stepKey = `step${stepNumber}` as keyof BrandDataState;
+    
+    // 컴포넌트와 데이터의 타입을 명시적으로 연결하여 오류 해결
+    switch (stepKey) {
+      case 'step1':
+        return (
+          <BrandEssenceForm
+            onNext={handleNextStep}
+            onSaveAndExit={handleSaveAndExit}
+            brandData={brandData[stepKey]}
+            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
+          />
+        );
+      // 다른 단계에 대한 케이스도 필요에 따라 추가
+      default:
+        // 적절한 컴포넌트가 없을 경우를 대비한 기본값
+        return <div>Form not found for this step.</div>;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-8">
+      <div className="mx-auto max-w-4xl">
+        <div className="flex justify-center mb-8">
+          <Card className="w-full max-w-2xl">
+            <CardHeader>
+              <CardTitle>
+                {isSummaryPage ? "Your Brand Identity Is Complete!" : `Step ${currentStep + 1}: ${brandSteps[currentStep].title}`}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {renderCurrentForm()}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* 이전/다음 버튼 */}
+        {!isSummaryPage && (
+          <div className="flex justify-between max-w-2xl mx-auto mt-4">
+            <Button onClick={handlePrevStep} disabled={currentStep === 0}>
+              <ArrowLeft className="mr-2 h-4 w-4" /> 이전 단계
+            </Button>
+            <Button onClick={handleNextStep}>
+              다음 단계 <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
