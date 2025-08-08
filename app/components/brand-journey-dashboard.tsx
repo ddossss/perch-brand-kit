@@ -83,8 +83,10 @@ export default function BrandJourneyDashboard() {
   };
 
   const handleNextStep = () => {
-    if (currentStep < brandSteps.length) {
+    if (currentStep < brandSteps.length - 1) { // 마지막 단계에서 다음 버튼을 누르면 요약 페이지로 이동
       setCurrentStep(currentStep + 1);
+    } else {
+      setCurrentStep(currentStep + 1); // 요약 페이지로 이동
     }
   };
 
@@ -116,7 +118,6 @@ export default function BrandJourneyDashboard() {
       console.error("Error saving data:", error);
       alert("오류가 발생했습니다.");
     }
-    
   };
   
   const isSummaryPage = currentStep >= brandSteps.length;
@@ -145,9 +146,67 @@ export default function BrandJourneyDashboard() {
             onInputChange={(step, field, value) => handleInputChange(step, field, value)}
           />
         );
-      // 다른 단계에 대한 케이스도 필요에 따라 추가
+      case 'step2':
+        return (
+          <BrandPersonaForm
+            onPrevious={handlePrevStep}
+            onNext={handleNextStep}
+            onSaveAndExit={handleSaveAndExit}
+            brandData={brandData[stepKey]}
+            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
+          />
+        );
+      case 'step3':
+        return (
+          <BrandStyleForm
+            onPrevious={handlePrevStep}
+            onNext={handleNextStep}
+            onSaveAndExit={handleSaveAndExit}
+            brandData={brandData[stepKey]}
+            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
+          />
+        );
+      case 'step4':
+        return (
+          <BrandMessageForm
+            onPrevious={handlePrevStep}
+            onNext={handleNextStep}
+            onSaveAndExit={handleSaveAndExit}
+            brandData={brandData[stepKey]}
+            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
+          />
+        );
+      case 'step5':
+        return (
+          <BrandPositioningForm
+            onPrevious={handlePrevStep}
+            onNext={handleNextStep}
+            onSaveAndExit={handleSaveAndExit}
+            brandData={brandData[stepKey]}
+            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
+          />
+        );
+      case 'step6':
+        return (
+          <BrandValidationForm
+            onPrevious={handlePrevStep}
+            onNext={handleNextStep}
+            onSaveAndExit={handleSaveAndExit}
+            brandData={brandData[stepKey]}
+            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
+          />
+        );
+      case 'step7':
+        return (
+          <BrandRoadmapForm
+            onPrevious={handlePrevStep}
+            onNext={handleNextStep}
+            onSaveAndExit={handleSaveAndExit}
+            brandData={brandData[stepKey]}
+            onInputChange={(step, field, value) => handleInputChange(step, field, value)}
+          />
+        );
       default:
-        // 적절한 컴포넌트가 없을 경우를 대비한 기본값
         return <div>Form not found for this step.</div>;
     }
   };
