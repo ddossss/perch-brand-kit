@@ -135,8 +135,6 @@ export default function BrandJourneyDashboard() {
     const stepNumber = brandSteps[currentStep].id + 1;
     const stepKey = `step${stepNumber}` as keyof BrandDataState;
     
-    // 컴포넌트와 데이터의 타입을 명시적으로 연결하여 오류 해결
-    // 불완전한 switch 문을 제거하고, 범용적인 props 전달 방식으로 변경
     return (
       <CurrentForm
         onPrevious={handlePrevStep}
