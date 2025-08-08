@@ -117,7 +117,7 @@ export default function BrandJourneyDashboard() {
       alert("오류가 발생했습니다.");
     }
   };
-  
+
   const isSummaryPage = currentStep >= brandSteps.length;
 
   const renderCurrentForm = () => {
@@ -134,7 +134,7 @@ export default function BrandJourneyDashboard() {
     const CurrentForm = brandSteps[currentStep].component;
     const stepNumber = brandSteps[currentStep].id + 1;
     const stepKey = `step${stepNumber}` as keyof BrandDataState;
-    
+
     return (
       <CurrentForm
         onPrevious={handlePrevStep}
